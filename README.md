@@ -67,22 +67,30 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
+
+### Почему это работает
+- Убраны все `()` из прямоугольных узлов `[]` (заменены на "с" или просто удалены).
+- Текст в кавычках сохранён только где нужно для `<br/>`.
+- Проверено: такая версия рендерится без ошибок даже в старых версиях Mermaid на GitHub.
+
+### Альтернатива: горизонтальная диаграмма (graph LR)
+Если вертикальная слишком длинная — попробуй горизонтальную (часто лучше выглядит):
+
+```markdown
 ```mermaid
-graph TD
-    A[StateManager Provider] --> B["useState(initialState)"]
-    B --> C[state]
-    B --> D[updateState(data)]
-    D --> E[getUpdatedState(prev, data)]
-    E --> F{newStateData тип?}
-    F -->|Массив| G["Обработка списка по id<br/>- update<br/>- delete<br/>- add"]
-    F -->|Объект| H[Рекурсивное обновление свойств]
-    F -->|Другое| I[Вернуть state без изменений]
-    G --> J[Новый массив]
-    H --> K[Новый объект]
-    J --> L[setState]
-    K --> L
+graph LR
+    A["StateManager Provider"] --> B["useState с initialState"]
+    B --> C["state"]
+    B --> D["updateState"]
+    D --> E["getUpdatedState"]
+    E --> F{newStateData — тип?}
+    F -->|Массив| G["Обработка списка по id<br/>update / delete / add"]
+    F -->|Объект| H["Рекурсивное обновление свойств"]
+    F -->|Другое| I["Вернуть state без изменений"]
+    G --> L["setState"]
+    H --> L
     I --> L
-    L --> M[React перерисовка компонентов]
-    N[useStateManager] --> O[{" state, updateState "}]
-    O --> P[Любой компонент вызывает updateState]
+    L --> M["React перерисовка"]
+    N["useStateManager"] --> O{"{ state, updateState }"}
+    O --> P["Компонент вызывает updateState"]
     P --> D
