@@ -76,7 +76,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### Альтернатива: горизонтальная диаграмма (graph LR)
 Если вертикальная слишком длинная — попробуй горизонтальную (часто лучше выглядит):
 
-```markdown
+
 ```mermaid
 graph LR
     A["StateManager Provider"] --> B["useState с initialState"]
