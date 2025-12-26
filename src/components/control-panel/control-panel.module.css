@@ -1,0 +1,52 @@
+.controlPanel {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  background-color: #f5f5f5;
+}
+.searchButton {
+  margin-left: 8px;
+  padding: 8px 16px;
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 92%);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.searchButton:hover {
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 87%);
+}
+.searchButton:active {
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 82%);
+}
+.searchInput {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 16px;
+}
+.searchInput:focus {
+  outline: none;
+  border-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 70%);
+}
+.addButton {
+  margin-left: 8px;
+  padding: 8px 16px;
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 92%);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.addButton:hover {
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 87%);
+}
+.addButton:active {
+  background-color: hsl(var(--accent-color-hue), var(--accent-color-saturation), 82%);
+}
+.sortCheckbox {
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
