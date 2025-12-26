@@ -69,12 +69,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ```mermaid
 graph TD
-    A[StateManager Provider] --> B[useState(initialState)]
+    A[StateManager Provider] --> B["useState(initialState)"]
     B --> C[state]
     B --> D[updateState(data)]
     D --> E[getUpdatedState(prev, data)]
     E --> F{newStateData тип?}
-    F -->|Массив| G[Обработка списка по id<br/>- update<br/>- delete<br/>- add]
+    F -->|Массив| G["Обработка списка по id<br/>- update<br/>- delete<br/>- add"]
     F -->|Объект| H[Рекурсивное обновление свойств]
     F -->|Другое| I[Вернуть state без изменений]
     G --> J[Новый массив]
@@ -83,6 +83,6 @@ graph TD
     K --> L
     I --> L
     L --> M[React перерисовка компонентов]
-    N[useStateManager] --> O[{ state, updateState }]
+    N[useStateManager] --> O[{" state, updateState "}]
     O --> P[Любой компонент вызывает updateState]
     P --> D
