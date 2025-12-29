@@ -1,13 +1,13 @@
 import { NEW_TODO_ID } from '../constants';
 const fetchServer = (method = 'GET', id, payload, params) => {
-	const { isSort, searchInput } = params || { isSort: false, searchInput: '' };
+	const { isSort, searchStr } = params || { isSort: false, searchStr: '' };
 	const url =
 		'http://localhost:3005/todos' +
 		(id !== NEW_TODO_ID && id !== undefined ? `/${id}` : '') +
 		'?_sort=' +
 		(isSort ? 'name' : 'id') +
-		(searchInput !== '' ? `&name_like=${encodeURIComponent(searchInput)}` : '');
-
+		(searchStr !== '' ? `&name_like=${encodeURIComponent(searchStr)}` : '');
+	console.log(url);
 	return fetch(url, {
 		headers: {
 			'Content-Type': 'application/json',
@@ -17,8 +17,8 @@ const fetchServer = (method = 'GET', id, payload, params) => {
 	});
 };
 
-export const getTodos = (isSort = false, searchInput = '') => {
-	return fetchServer('GET', undefined, null, { isSort, searchInput }).then((response) =>
+export const getTodos = (isSort = false, searchStr = '') => {
+	return fetchServer('GET', undefined, null, { isSort, searchStr }).then((response) =>
 		response.json(),
 	);
 };

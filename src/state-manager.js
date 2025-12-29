@@ -6,48 +6,54 @@ const StateManagerContext = createContext({
 	// updateState([{id:newId,...data}]) - добавить в массив элмент с newId
 	// updateState([{id:existedId}]) - удалить элемент с existedId
 	updateState: () => {},
+	setState: () => {},
 });
+const updateArray = (array, newDataArray) => {
+	console.log('updateArray', array, newDataArray);
+	let newArray = [...array];
+
+	newDataArray.forEach(({ id, ...itemData }) => {
+		const index = newArray.findIndex((el) => el.id === id);
+
+		if (index !== -1) {
+			if (Object.keys(itemData).length === 0) {
+				// Удаление: передан только { id }
+				newArray.splice(index, 1);
+			} else {
+				// Обновление
+				newArray[index] = { ...newArray[index], ...itemData };
+			}
+		} else {
+			// Добавление нового
+			if (Object.keys(itemData).length > 0 || id !== undefined) {
+				newArray.push({ id, ...itemData });
+			}
+			// Если передан { id: undefined } или пустой — игнорируем
+		}
+	});
+	return newArray; // ← ОБЯЗАТЕЛЬНО возвращаем!
+};
 const getUpdatedState = (state, newStateData) => {
 	if (Array.isArray(newStateData)) {
 		// Копируем массив
-		let newArray = [...state];
 
-		newStateData.forEach(({ id, ...itemData }) => {
-			const index = newArray.findIndex((el) => el.id === id);
+		const ret = updateArray(state, newStateData);
 
-			if (index !== -1) {
-				if (Object.keys(itemData).length === 0) {
-					// Удаление: передан только { id }
-					newArray.splice(index, 1);
-				} else {
-					// Обновление
-					newArray[index] = { ...newArray[index], ...itemData };
-				}
-			} else {
-				// Добавление нового
-				if (Object.keys(itemData).length > 0 || id !== undefined) {
-					newArray.push({ id, ...itemData });
-				}
-				// Если передан { id: undefined } или пустой — игнорируем
-			}
-		});
-
-		return newArray; // ← ОБЯЗАТЕЛЬНО возвращаем!
+		return ret;
 	}
-	const updateObject = (state, newStateData) => {
-		return Object.entries(newStateData).reduce(
+	if (typeof newStateData === 'object' && newStateData !== null) {
+		const ret = Object.entries(newStateData).reduce(
 			(updatedState, [key, value]) => ({
 				...updatedState,
 				[key]:
 					typeof value === 'object' && value !== null
-						? updateObject(state[key], value)
+						? getUpdatedState(state[key], value)
 						: value,
 			}),
 			state,
 		);
-	};
-	if (typeof newStateData === 'object' && newStateData !== null) {
-		return updateObject(state, newStateData);
+
+		return ret;
 	}
 
 	return state;
@@ -59,7 +65,7 @@ export const StateManager = ({ children, initialState }) => {
 	};
 
 	return (
-		<StateManagerContext.Provider value={{ state, updateState }}>
+		<StateManagerContext.Provider value={{ state, updateState, setState }}>
 			{children}
 		</StateManagerContext.Provider>
 	);
