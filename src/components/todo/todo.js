@@ -2,7 +2,7 @@ import styles from './todo.module.css';
 import { getTodos, updateTodo, createTodo, deleteTodo } from '../../api';
 import { NEW_TODO_ID } from '../../constants';
 import { useStateManager } from '../../state-manager';
-export const Todo = ({ id, name, finished, deleteTodo }) => {
+export const Todo = ({ id, name, finished }) => {
 	const { state, updateState } = useStateManager();
 
 	const isEdit = state.editTodo.id === id && state.editTodo.isEdit;
@@ -17,7 +17,10 @@ export const Todo = ({ id, name, finished, deleteTodo }) => {
 	};
 
 	const onClickSaveButton = () => saveTodo(id, editName, finished);
-	const onClickDeleteButton = () => deleteTodo(id);
+	const onClickDeleteButton = () => {
+		deleteTodo(id);
+		updateState({ tasks: [{ id: id }] });
+	};
 	const onChangeCheckbox = () => {
 		saveTodo(id, name, !finished);
 	};

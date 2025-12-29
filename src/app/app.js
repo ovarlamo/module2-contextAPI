@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import { Todo } from '../components';
 import { ControlPanel } from '../components/control-panel/control-panel';
-import { getTodos, updateTodo, createTodo, deleteTodo } from '../api/api';
-import { SetTodoInTodos, AddTodoInTodos } from '../utils';
+import { getTodos } from '../api/api';
+
 import { NEW_TODO_ID } from '../constants';
 import { useStateManager } from '../state-manager';
 
@@ -11,7 +11,6 @@ export const App = () => {
 	const { state, updateState, setState } = useStateManager();
 
 	const { tasks, isSort, searchStr } = state;
-	const setTasks = (data) => updateState({ tasks: data });
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -22,7 +21,7 @@ export const App = () => {
 			setIsLoading(true);
 			try {
 				const loadedTasks = await getTodos(isSort, searchStr);
-				console.log('loadDatas', loadedTasks);
+
 				setState({ ...state, tasks: loadedTasks });
 			} catch (err) {
 				setIsLoading(false);
@@ -39,11 +38,6 @@ export const App = () => {
 			tasks: [{ id: NEW_TODO_ID, name: '', finished: false }],
 			editTodo: { id: NEW_TODO_ID, editName: '', isEdit: true },
 		});
-
-	const deleteTodoFromDotos = (id) => {
-		deleteTodo(id);
-		updateState({ tasks: [{ id: id }] });
-	};
 
 	return (
 		<div className={styles.app}>
@@ -63,7 +57,6 @@ export const App = () => {
 							id={id}
 							finished={finished}
 							isEdit={isEdit}
-							deleteTodo={deleteTodoFromDotos}
 						></Todo>
 					))}
 				</div>
