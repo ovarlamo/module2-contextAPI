@@ -7,7 +7,7 @@ const fetchServer = (method = 'GET', id, payload, params) => {
 		'?_sort=' +
 		(isSort ? 'name' : 'id') +
 		(searchStr !== '' ? `&name_like=${encodeURIComponent(searchStr)}` : '');
-	console.log(url);
+
 	return fetch(url, {
 		headers: {
 			'Content-Type': 'application/json',

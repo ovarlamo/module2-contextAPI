@@ -1,5 +1,5 @@
 import styles from './todo.module.css';
-import { getTodos, updateTodo, createTodo, deleteTodo } from '../../api';
+import { updateTodo, createTodo, deleteTodo } from '../../api';
 import { NEW_TODO_ID } from '../../constants';
 import { useStateManager } from '../../state-manager';
 export const Todo = ({ id, name, finished }) => {
@@ -21,21 +21,20 @@ export const Todo = ({ id, name, finished }) => {
 		deleteTodo(id);
 		updateState({ tasks: [{ id: id }] });
 	};
-	const onChangeCheckbox = () => {
-		saveTodo(id, name, !finished);
+	const onChangeCheckbox = ({ target }) => {
+		saveTodo(id, name, target.checked);
 	};
 	const saveTodo = (id, name, finished) => {
-		console.log('saveTodo', id, name, finished);
 		if (id === NEW_TODO_ID) {
 			createTodo({ name, finished }).then(({ id }) => {
 				updateState({ tasks: [{ id: NEW_TODO_ID }] });
-				updateState({ tasks: [{ id: id, name: name, finished: finished }] });
+				updateState({ tasks: [{ id, name, finished }] });
 			});
 		} else {
 			updateTodo(id, { name, finished }).then(({ id }) => {
 				updateState({
 					editTodo: { isEdit: false },
-					tasks: [{ id: id, name: name, finished: finished }],
+					tasks: [{ id, name, finished }],
 				});
 			});
 		}

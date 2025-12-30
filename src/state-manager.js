@@ -9,7 +9,6 @@ const StateManagerContext = createContext({
 	setState: () => {},
 });
 const updateArray = (array, newDataArray) => {
-	console.log('updateArray', array, newDataArray);
 	let newArray = [...array];
 
 	newDataArray.forEach(({ id, ...itemData }) => {

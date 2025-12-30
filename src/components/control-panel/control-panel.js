@@ -15,14 +15,14 @@ export const ControlPanel = ({ addTodo }) => {
 	const [searchInput, setSearchInput] = useState('');
 
 	const setIsSort = () => updateState({ isSort: !isSort });
-	const onSearch = (value) => {
-		updateState({ searchStr: value });
+	const onSearch = (value, isSort) => {
+		updateState({ searchStr: value, isSort });
 	};
 	const debounceOnSearch = useRef(Debounce(onSearch, 1000)).current;
 
 	const onChangeSearchInput = ({ target }) => {
 		setSearchInput(target.value);
-		debounceOnSearch(target.value);
+		debounceOnSearch(target.value, isSort);
 	};
 
 	return (
