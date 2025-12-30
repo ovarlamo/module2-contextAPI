@@ -33,7 +33,7 @@ export const Todo = ({ id, name, finished }) => {
 		} else {
 			updateTodo(id, { name, finished }).then(({ id }) => {
 				updateState({
-					editTodo: { isEdit: false },
+					editTodo: { id: null, isEdit: false, editName: '' },
 					tasks: [{ id, name, finished }],
 				});
 			});
